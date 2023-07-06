@@ -12,31 +12,51 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton
+      onClick={(event) => {
+        console.log("Dashboard");
+      }}
+    >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={(event) => {
+        console.log("Orders");
+      }}
+    >
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={(event) => {
+        console.log("Customers");
+      }}
+    >
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Customers" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={(event) => {
+        console.log("Reports");
+      }}
+    >
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={(event) => {
+        console.log("Integrations");
+      }}
+    >
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>

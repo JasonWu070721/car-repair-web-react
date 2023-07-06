@@ -14,6 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 
+import { GoogleLogin } from "../components/GoogleLogin";
+
 function Copyright(props: any) {
   return (
     <Typography
@@ -103,6 +105,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -117,6 +120,9 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
+
+        <GoogleLogin />
+
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
