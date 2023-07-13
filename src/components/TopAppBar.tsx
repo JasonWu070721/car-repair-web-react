@@ -85,7 +85,7 @@ interface SearchAppBarProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchAppBar = ({ open, setOpen }: SearchAppBarProps) => {
+const TopAppBar = ({ open, setOpen }: SearchAppBarProps) => {
   // const [open, setOpen] = React.useState(true);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -280,4 +280,4 @@ const SearchAppBar = ({ open, setOpen }: SearchAppBarProps) => {
   );
 };
 
-export { SearchAppBar };
+export { TopAppBar };
