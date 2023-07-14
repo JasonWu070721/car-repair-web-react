@@ -11,6 +11,7 @@ import {
   GridRowParams,
   GridRowSelectionModel,
   GridRowsProp,
+  GridToolbar,
 } from "@mui/x-data-grid";
 import { GridDemoData, useDemoData } from "@mui/x-data-grid-generator";
 
@@ -118,6 +119,16 @@ function DashboardContent() {
               rowCount={100}
               paginationMode="server"
               keepNonExistentRowsSelected
+              disableColumnFilter
+              disableColumnSelector
+              disableDensitySelector
+              slots={{ toolbar: GridToolbar }}
+              slotProps={{
+                toolbar: {
+                  showQuickFilter: true,
+                  quickFilterProps: { debounceMs: 500 },
+                },
+              }}
             />
           </div>
         </Box>
