@@ -17,6 +17,7 @@ import { GridDemoData, useDemoData } from "@mui/x-data-grid-generator";
 
 import { TopAppBar } from "../components/TopAppBar";
 import { LeftDrawer } from "../components/LeftDrawer";
+import { CustomersApi, Configuration } from "../openapi";
 
 const mdTheme = createTheme();
 
@@ -35,6 +36,20 @@ function DashboardContent() {
     page: 0,
     pageSize: 5,
   });
+
+  const configuration = new Configuration({
+    basePath: "http://127.0.0.1:3000/api/v1",
+  });
+  const customersApi = new CustomersApi(configuration);
+
+  customersApi
+    .customersGet()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
