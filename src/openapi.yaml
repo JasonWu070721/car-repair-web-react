@@ -31,10 +31,8 @@ paths:
                   id:
                     type: integer
                     format: int64
-                    example: 4
                   name:
                     type: string
-                    example: Jessica Smith
         "400":
           description: The specified user ID is invalid (not a number).
         "404":
@@ -69,10 +67,8 @@ paths:
                   id:
                     type: integer
                     format: int64
-                    example: 4
                   name:
                     type: string
-                    example: Jessica Smith
         "400":
           description: The specified customer ID is invalid (not a number).
         "401":
@@ -82,7 +78,7 @@ paths:
         default:
           description: Unexpected error
 
-  /customers/:
+  /customers:
     get:
       summary: Returns a customer by ID.
       tags:
@@ -95,13 +91,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  ID:
                     type: integer
                     format: int64
-                    example: 4
                   name:
                     type: string
-                    example: Jessica Smith
+                  license_plate:
+                    type: string
+                  car_color:
+                    type: string
+
         "400":
           description: The specified customer ID is invalid (not a number).
         "401":
@@ -118,11 +117,5 @@ components:
       bearerFormat: JWT
 
   responses:
-    default:
-      statusCode: "200"
-      responseParameters:
-        method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-        method.response.header.Access-Control-Allow-Methods: "'*'"
-        method.response.header.Access-Control-Allow-Origin: "'*'"
     UnauthorizedError:
       description: Access token is missing or invalid
