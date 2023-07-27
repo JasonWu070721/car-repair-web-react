@@ -76,7 +76,7 @@ function DashboardContent() {
   ];
 
   const configuration = new Configuration({
-    basePath: "http://127.0.0.1:3000/api/v1",
+    basePath: "https://127.0.0.1/api/v1",
   });
   const customersApi = new CustomersApi(configuration);
 
