@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 info:
   title: Simple API overview
   version: 2.0.0
@@ -64,10 +64,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  ID:
                     type: integer
                     format: int64
                   name:
+                    type: string
+                  license_plate:
+                    type: string
+                  car_color:
+                    type: string
+                  car_year:
                     type: string
         "400":
           description: The specified customer ID is invalid (not a number).
@@ -78,7 +84,7 @@ paths:
         default:
           description: Unexpected error
 
-  /customers:
+  /customers/:
     get:
       summary: Returns a customer by ID.
       tags:
@@ -89,17 +95,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  ID:
-                    type: integer
-                    format: int64
-                  name:
-                    type: string
-                  license_plate:
-                    type: string
-                  car_color:
-                    type: string
+                type: array
+                items:
+                  properties:
+                    ID:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+                    license_plate:
+                      type: string
+                    car_color:
+                      type: string
+                    car_year:
+                      type: string
 
         "400":
           description: The specified customer ID is invalid (not a number).
