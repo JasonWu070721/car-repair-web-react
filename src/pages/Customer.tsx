@@ -6,13 +6,19 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import {
   DataGrid,
   GridRowParams,
   GridRowSelectionModel,
   GridToolbar,
   GridColDef,
-  GridValueGetterParams,
 } from "@mui/x-data-grid";
 
 import { TopAppBar } from "../components/TopAppBar";
@@ -35,6 +41,17 @@ function DashboardContent() {
     page: 0,
     pageSize: 5,
   });
+
+  const [openDialog, setDialogOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    fetchCreateCustomersApi();
+    setDialogOpen(false);
+  };
 
   const columns: GridColDef[] = [
     { field: "iD", headerName: "ID", width: 90 },
@@ -66,7 +83,7 @@ function DashboardContent() {
   const [rowSelectionModel, setRowSelectionModel] =
     React.useState<GridRowSelectionModel>([]);
 
-  const fetchCustomersApi = async () => {
+  const fetchGetCustomersApi = async () => {
     await customersApi
       .customersGet()
       .then((res) => {
@@ -77,12 +94,83 @@ function DashboardContent() {
       });
   };
 
+  const fetchCreateCustomersApi = async () => {
+    const customersPostRequest = {
+      customersPostRequest: {
+        name: "test3",
+        licensePlate: "test3",
+        carColor: "test3",
+        carYear: "test3",
+      },
+    };
+
+    await customersApi
+      .customersPost(customersPostRequest)
+      .then((res) => {
+        console.log("res: ");
+        console.log(res.iD);
+        fetchDeleteCustomersApi(res.iD as number);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const fetchDeleteCustomersApi = async (_id: number) => {
+    await customersApi
+      .customersIdDelete({ id: _id })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   React.useEffect(() => {
-    fetchCustomersApi();
+    fetchGetCustomersApi();
   }, []); // paginationModel.page
 
   return (
     <ThemeProvider theme={mdTheme}>
+      <Dialog open={openDialog} onClose={handleClose}>
+        <DialogTitle>New Customer</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="licensePlate"
+            label="License Plate"
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="carColor"
+            label="Car Color"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
+
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
@@ -108,6 +196,10 @@ function DashboardContent() {
             <Button variant="contained">Edit</Button>
             <Button variant="contained" href="#contained-buttons">
               Delete
+            </Button>
+
+            <Button variant="outlined" onClick={handleClickOpen}>
+              Open form dialog
             </Button>
           </Stack>
 
