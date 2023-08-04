@@ -26,16 +26,21 @@ import { LeftDrawer } from "../components/LeftDrawer";
 import {
   CustomersApi,
   Configuration,
-  CustomersGet200ResponseInner,
+  CustomersIdGet200Response,
+  CustomersPostRequest,
 } from "../openapi";
 
 const mdTheme = createTheme();
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
-  const [rows, setRows] = React.useState<CustomersGet200ResponseInner[]>([]);
+  const [tableRows, setTableRows] = React.useState<CustomersIdGet200Response[]>(
+    []
+  );
+  const [createFormatData, setCreateFormatData] =
+    React.useState<CustomersIdGet200Response>({});
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   const [paginationModel, setPaginationModel] = React.useState({
     page: 0,
@@ -44,17 +49,22 @@ function DashboardContent() {
 
   const [openDialog, setDialogOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const handleCreateOpen = () => {
     setDialogOpen(true);
   };
 
-  const handleClose = () => {
-    fetchCreateCustomersApi();
+  const handleCreateClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleCreateSubscribe = () => {
+    fetchCreateCustomersApi(createFormatData);
+
     setDialogOpen(false);
   };
 
   const columns: GridColDef[] = [
-    { field: "iD", headerName: "ID", width: 90 },
+    { field: "ID", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Name",
@@ -87,30 +97,27 @@ function DashboardContent() {
     await customersApi
       .customersGet()
       .then((res) => {
-        setRows(res);
+        setTableRows(res);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
 
-  const fetchCreateCustomersApi = async () => {
-    const customersPostRequest = {
-      customersPostRequest: {
-        name: "test3",
-        licensePlate: "test3",
-        carColor: "test3",
-        carYear: "test3",
-      },
+  const fetchCreateCustomersApi = async (
+    customersPostRequest: CustomersPostRequest
+  ) => {
+    const customersPostOperationRequest = {
+      customersPostRequest,
     };
 
     await customersApi
-      .customersPost(customersPostRequest)
+      .customersPost(customersPostOperationRequest)
       .then((res) => {
-        console.log("res: ");
-        console.log(res.iD);
-        fetchDeleteCustomersApi(res.iD as number);
+        console.log(res);
       })
+
       .catch((err) => {
         console.log(err.message);
       });
@@ -131,13 +138,10 @@ function DashboardContent() {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Dialog open={openDialog} onClose={handleClose}>
+      <Dialog open={openDialog} onClose={handleCreateClose}>
         <DialogTitle>New Customer</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
+          <DialogContentText>Create Customer</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -145,6 +149,12 @@ function DashboardContent() {
             label="Name"
             fullWidth
             variant="standard"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setCreateFormatData((prev: any) => ({
+                ...prev,
+                name: event.target.value,
+              }));
+            }}
           />
 
           <TextField
@@ -154,6 +164,12 @@ function DashboardContent() {
             label="License Plate"
             fullWidth
             variant="standard"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setCreateFormatData((prev: any) => ({
+                ...prev,
+                licensePlate: event.target.value,
+              }));
+            }}
           />
 
           <TextField
@@ -163,11 +179,32 @@ function DashboardContent() {
             label="Car Color"
             fullWidth
             variant="standard"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setCreateFormatData((prev: any) => ({
+                ...prev,
+                carColor: event.target.value,
+              }));
+            }}
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="carYear"
+            label="Car Year"
+            fullWidth
+            variant="standard"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setCreateFormatData((prev: any) => ({
+                ...prev,
+                carYear: event.target.value,
+              }));
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handleCreateClose}>Cancel</Button>
+          <Button onClick={handleCreateSubscribe}>Subscribe</Button>
         </DialogActions>
       </Dialog>
 
@@ -192,21 +229,19 @@ function DashboardContent() {
           <Toolbar />
 
           <Stack direction="row" spacing={2}>
-            <Button variant="contained">Create New</Button>
+            <Button variant="contained" onClick={handleCreateOpen}>
+              Create New
+            </Button>
             <Button variant="contained">Edit</Button>
             <Button variant="contained" href="#contained-buttons">
               Delete
-            </Button>
-
-            <Button variant="outlined" onClick={handleClickOpen}>
-              Open form dialog
             </Button>
           </Stack>
 
           <div style={{ height: "100%", width: "100%" }}>
             <DataGrid
-              rows={rows}
-              getRowId={(row) => row.iD}
+              rows={tableRows}
+              getRowId={(row) => row.ID}
               columns={columns}
               isRowSelectable={(params: GridRowParams) =>
                 params.row.quantity > 50000
