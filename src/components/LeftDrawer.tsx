@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import { mainListItems, secondaryListItems } from "../components/listItems";
+import { UseMainListItems, secondaryListItems } from "../components/listItems";
 
 const drawerWidth: number = 240;
 
@@ -61,7 +61,7 @@ const LeftDrawer = ({ open, setOpen }: SearchAppBarProps) => {
       </Toolbar>
       <Divider />
       <List component="nav">
-        {mainListItems}
+        <UseMainListItems />
         <Divider sx={{ my: 1 }} />
         {secondaryListItems}
       </List>

@@ -10,60 +10,66 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
-export const mainListItems = (
-  <React.Fragment>
-    <ListItemButton
-      onClick={(event) => {
-        console.log("Dashboard");
-      }}
-    >
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-    <ListItemButton
-      onClick={(event) => {
-        console.log("Orders");
-      }}
-    >
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItemButton>
-    <ListItemButton
-      onClick={(event) => {
-        console.log("Customers");
-      }}
-    >
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItemButton>
-    <ListItemButton
-      onClick={(event) => {
-        console.log("Reports");
-      }}
-    >
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItemButton>
-    <ListItemButton
-      onClick={(event) => {
-        console.log("Integrations");
-      }}
-    >
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItemButton>
-  </React.Fragment>
-);
+import { useNavigate } from "react-router-dom";
+
+export const UseMainListItems = () => {
+  const navigate = useNavigate();
+  return (
+    <React.Fragment>
+      <ListItemButton
+        onClick={(event) => {
+          navigate("/dashboard");
+        }}
+      >
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItemButton>
+
+      <ListItemButton
+        onClick={(event) => {
+          navigate("/customer");
+        }}
+      >
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Customers" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={(event) => {
+          console.log("Vehicle");
+        }}
+      >
+        <ListItemIcon>
+          <LayersIcon />
+        </ListItemIcon>
+        <ListItemText primary="Vehicle" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={(event) => {
+          console.log("Quotation");
+        }}
+      >
+        <ListItemIcon>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Quotation" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={(event) => {
+          console.log("Material");
+        }}
+      >
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Material" />
+      </ListItemButton>
+    </React.Fragment>
+  );
+};
 
 export const secondaryListItems = (
   <React.Fragment>
