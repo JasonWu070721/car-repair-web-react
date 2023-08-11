@@ -36,7 +36,6 @@ docker-compose up
 - [x] Support Google, Facebook Login
 - [ ] CSRF (Cross-Site Request Forgery) protection
 - [ ] XSS (Cross-Site Scripting) protection
-- [ ] Create service API
 - [ ] Injection protection
 - [ ] Support K8S
 - [ ] Support Line pay, ECPay
@@ -45,3 +44,7 @@ docker-compose up
 - [ ] Support AWS EC2 deployment
 - [ ] Support unit test
 - [ ] Support Gitlab CI/CD
+- [ ] Create vehicle page
+- [ ] Create quotation page
+- [ ] Create material page
+- [ ] Create service page
