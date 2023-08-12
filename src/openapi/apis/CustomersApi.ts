@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   CustomersIdGet200Response,
-  CustomersPostRequest,
+  CustomersIdPutRequest,
 } from '../models';
 import {
     CustomersIdGet200ResponseFromJSON,
     CustomersIdGet200ResponseToJSON,
-    CustomersPostRequestFromJSON,
-    CustomersPostRequestToJSON,
+    CustomersIdPutRequestFromJSON,
+    CustomersIdPutRequestToJSON,
 } from '../models';
 
 export interface CustomersIdDeleteRequest {
@@ -33,8 +33,13 @@ export interface CustomersIdGetRequest {
     id: any;
 }
 
-export interface CustomersPostOperationRequest {
-    customersPostRequest: CustomersPostRequest;
+export interface CustomersIdPutOperationRequest {
+    id: any;
+    customersIdPutRequest: CustomersIdPutRequest;
+}
+
+export interface CustomersPostRequest {
+    customersIdPutRequest: CustomersIdPutRequest;
 }
 
 /**
@@ -150,9 +155,46 @@ export class CustomersApi extends runtime.BaseAPI {
     /**
      * Returns a customer by ID.
      */
-    async customersPostRaw(requestParameters: CustomersPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomersIdGet200Response>> {
-        if (requestParameters.customersPostRequest === null || requestParameters.customersPostRequest === undefined) {
-            throw new runtime.RequiredError('customersPostRequest','Required parameter requestParameters.customersPostRequest was null or undefined when calling customersPost.');
+    async customersIdPutRaw(requestParameters: CustomersIdPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomersIdGet200Response>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling customersIdPut.');
+        }
+
+        if (requestParameters.customersIdPutRequest === null || requestParameters.customersIdPutRequest === undefined) {
+            throw new runtime.RequiredError('customersIdPutRequest','Required parameter requestParameters.customersIdPutRequest was null or undefined when calling customersIdPut.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/customers/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CustomersIdPutRequestToJSON(requestParameters.customersIdPutRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CustomersIdGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns a customer by ID.
+     */
+    async customersIdPut(requestParameters: CustomersIdPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomersIdGet200Response> {
+        const response = await this.customersIdPutRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Returns a customer by ID.
+     */
+    async customersPostRaw(requestParameters: CustomersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomersIdGet200Response>> {
+        if (requestParameters.customersIdPutRequest === null || requestParameters.customersIdPutRequest === undefined) {
+            throw new runtime.RequiredError('customersIdPutRequest','Required parameter requestParameters.customersIdPutRequest was null or undefined when calling customersPost.');
         }
 
         const queryParameters: any = {};
@@ -166,7 +208,7 @@ export class CustomersApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CustomersPostRequestToJSON(requestParameters.customersPostRequest),
+            body: CustomersIdPutRequestToJSON(requestParameters.customersIdPutRequest),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CustomersIdGet200ResponseFromJSON(jsonValue));
@@ -175,7 +217,7 @@ export class CustomersApi extends runtime.BaseAPI {
     /**
      * Returns a customer by ID.
      */
-    async customersPost(requestParameters: CustomersPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomersIdGet200Response> {
+    async customersPost(requestParameters: CustomersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomersIdGet200Response> {
         const response = await this.customersPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

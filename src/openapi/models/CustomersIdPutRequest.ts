@@ -16,61 +16,54 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface CustomersGet200ResponseInner
+ * @interface CustomersIdPutRequest
  */
-export interface CustomersGet200ResponseInner {
+export interface CustomersIdPutRequest {
     /**
      * 
-     * @type {number}
-     * @memberof CustomersGet200ResponseInner
+     * @type {any}
+     * @memberof CustomersIdPutRequest
      */
-    iD?: number;
+    name?: any | null;
     /**
      * 
-     * @type {string}
-     * @memberof CustomersGet200ResponseInner
+     * @type {any}
+     * @memberof CustomersIdPutRequest
      */
-    name?: string;
+    licensePlate?: any | null;
     /**
      * 
-     * @type {string}
-     * @memberof CustomersGet200ResponseInner
+     * @type {any}
+     * @memberof CustomersIdPutRequest
      */
-    licensePlate?: string;
+    carColor?: any | null;
     /**
      * 
-     * @type {string}
-     * @memberof CustomersGet200ResponseInner
+     * @type {any}
+     * @memberof CustomersIdPutRequest
      */
-    carColor?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomersGet200ResponseInner
-     */
-    carYear?: string;
+    carYear?: any | null;
 }
 
 /**
- * Check if a given object implements the CustomersGet200ResponseInner interface.
+ * Check if a given object implements the CustomersIdPutRequest interface.
  */
-export function instanceOfCustomersGet200ResponseInner(value: object): boolean {
+export function instanceOfCustomersIdPutRequest(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function CustomersGet200ResponseInnerFromJSON(json: any): CustomersGet200ResponseInner {
-    return CustomersGet200ResponseInnerFromJSONTyped(json, false);
+export function CustomersIdPutRequestFromJSON(json: any): CustomersIdPutRequest {
+    return CustomersIdPutRequestFromJSONTyped(json, false);
 }
 
-export function CustomersGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): CustomersGet200ResponseInner {
+export function CustomersIdPutRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): CustomersIdPutRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'iD': !exists(json, 'ID') ? undefined : json['ID'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'licensePlate': !exists(json, 'license_plate') ? undefined : json['license_plate'],
         'carColor': !exists(json, 'car_color') ? undefined : json['car_color'],
@@ -78,7 +71,7 @@ export function CustomersGet200ResponseInnerFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function CustomersGet200ResponseInnerToJSON(value?: CustomersGet200ResponseInner | null): any {
+export function CustomersIdPutRequestToJSON(value?: CustomersIdPutRequest | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,7 +80,6 @@ export function CustomersGet200ResponseInnerToJSON(value?: CustomersGet200Respon
     }
     return {
         
-        'ID': value.iD,
         'name': value.name,
         'license_plate': value.licensePlate,
         'car_color': value.carColor,

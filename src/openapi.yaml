@@ -84,6 +84,65 @@ paths:
         default:
           description: Unexpected error
 
+    put:
+      summary: Returns a customer by ID.
+      tags:
+        - customers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the customer to return.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                license_plate:
+                  type: string
+                car_color:
+                  type: string
+                car_year:
+                  type: string
+
+      responses:
+        "201":
+          description: A customer object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: integer
+                    format: int64
+                  name:
+                    type: string
+                  license_plate:
+                    type: string
+                  car_color:
+                    type: string
+                  car_year:
+                    type: string
+
+        "400":
+          description: The specified customer ID is invalid (not a number).
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: A customer with the specified ID was not found.
+        default:
+          description: Unexpected error
+
     delete:
       summary: delete a customer by ID.
       tags:

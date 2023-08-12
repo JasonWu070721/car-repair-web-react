@@ -48,3 +48,5 @@ docker-compose up
 - [ ] Create quotation page
 - [ ] Create material page
 - [ ] Create service page
+- [ ] CRUD base function
+- [ ] Support all table search

@@ -12,11 +12,13 @@ import {
   GridRowSelectionModel,
   GridToolbar,
   GridColDef,
+  GridColumnGroupingModel,
 } from "@mui/x-data-grid";
 
 import { TopAppBar } from "../components/TopAppBar";
 import { LeftDrawer } from "../components/LeftDrawer";
 import { UseCreateCustomerDialog } from "../components/customer/CreateCustomerDialog";
+import { UseEditCustomerDialog } from "../components/customer/EditCustomerDialog";
 
 import {
   CustomersApi,
@@ -36,14 +38,19 @@ function DashboardContent() {
   const [loading, setLoading] = React.useState(true);
 
   const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: 25,
     page: 0,
-    pageSize: 5,
   });
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
 
   const handleCreateOpen = () => {
     setDialogOpen(true);
+  };
+
+  const handleEditeOpen = () => {
+    setEditDialogOpen(true);
   };
 
   const columns: GridColDef[] = [
@@ -118,7 +125,9 @@ function DashboardContent() {
             <Button variant="contained" onClick={handleCreateOpen}>
               Create New
             </Button>
-            <Button variant="contained">Edit</Button>
+            <Button variant="contained" onClick={handleEditeOpen}>
+              Edit
+            </Button>
             <Button variant="contained" href="#contained-buttons">
               Delete
             </Button>
@@ -127,16 +136,20 @@ function DashboardContent() {
             openDialog={dialogOpen}
             setOpenDialog={setDialogOpen}
           />
+          <UseEditCustomerDialog
+            openDialog={editDialogOpen}
+            setOpenDialog={setEditDialogOpen}
+            rowSelection={rowSelectionModel}
+          />
 
           <div style={{ height: "100%", width: "100%" }}>
             <DataGrid
               rows={tableRows}
               getRowId={(row) => row.ID}
               columns={columns}
-              isRowSelectable={(params: GridRowParams) =>
-                params.row.quantity > 50000
-              }
+              experimentalFeatures={{ columnGrouping: true }}
               checkboxSelection
+              disableRowSelectionOnClick
               onRowSelectionModelChange={(newRowSelectionModel) => {
                 setRowSelectionModel(newRowSelectionModel);
               }}
@@ -145,7 +158,6 @@ function DashboardContent() {
               pagination
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              pageSizeOptions={[5]}
               rowCount={100}
               paginationMode="server"
               keepNonExistentRowsSelected

@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CustomersApi,
   Configuration,
@@ -13,16 +13,22 @@ import {
   CustomersIdPutRequest,
 } from "../../openapi";
 
+import { GridRowSelectionModel } from "@mui/x-data-grid";
+
 interface reateCustomerDialogProps {
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  rowSelection: GridRowSelectionModel;
 }
 
-const UseCreateCustomerDialog = ({
+const UseEditCustomerDialog = ({
   openDialog,
   setOpenDialog,
+  rowSelection,
 }: reateCustomerDialogProps) => {
-  const [createFormatData, setCreateFormatData] =
+  // const [createFormatData, setCreateFormatData] =
+  //   useState<CustomersIdGet200Response>({});
+  const [editFormatData, setEditFormatData] =
     useState<CustomersIdGet200Response>({});
 
   const configuration = new Configuration({
@@ -30,19 +36,21 @@ const UseCreateCustomerDialog = ({
   });
   const customersApi = new CustomersApi(configuration);
 
-  const fetchCreateCustomersApi = async (
+  const fetchCustomersIdPutApi = async (
+    // id: any,
     customersIdPutRequest: CustomersIdPutRequest
   ) => {
+    const customersId = rowSelection[rowSelection.length - 1];
     const customersPostOperationRequest = {
+      id: customersId,
       customersIdPutRequest,
     };
 
     await customersApi
-      .customersPost(customersPostOperationRequest)
+      .customersIdPut(customersPostOperationRequest)
       .then((res) => {
         console.log(res);
       })
-
       .catch((err) => {
         console.log(err.message);
       });
@@ -57,18 +65,37 @@ const UseCreateCustomerDialog = ({
       });
   };
 
-  const handleCreateClose = () => {
+  const fetcIdGetCustomersApi = async (_id: number) => {
+    await customersApi
+      .customersIdGet({ id: _id })
+      .then((res: CustomersIdGet200Response) => {
+        setEditFormatData(res);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const handleClose = () => {
     setOpenDialog(false);
   };
 
-  const handleCreateSubscribe = () => {
-    fetchCreateCustomersApi(createFormatData);
+  const handleSubscribe = () => {
+    fetchCustomersIdPutApi(editFormatData);
 
     setOpenDialog(false);
   };
+
+  useEffect(() => {
+    const customersId = rowSelection[rowSelection.length - 1];
+    if (typeof customersId === "number") {
+      fetcIdGetCustomersApi(customersId);
+    }
+  }, [rowSelection]); // paginationModel.pag
 
   return (
-    <Dialog open={openDialog} onClose={handleCreateClose}>
+    <Dialog open={openDialog} onClose={handleClose}>
       <DialogTitle>New Customer</DialogTitle>
       <DialogContent>
         <DialogContentText>Create Customer</DialogContentText>
@@ -79,8 +106,9 @@ const UseCreateCustomerDialog = ({
           label="Name"
           fullWidth
           variant="standard"
+          defaultValue={editFormatData.name}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setEditFormatData((prev: any) => ({
               ...prev,
               name: event.target.value,
             }));
@@ -94,8 +122,9 @@ const UseCreateCustomerDialog = ({
           label="License Plate"
           fullWidth
           variant="standard"
+          defaultValue={editFormatData.licensePlate}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setEditFormatData((prev: any) => ({
               ...prev,
               licensePlate: event.target.value,
             }));
@@ -109,8 +138,9 @@ const UseCreateCustomerDialog = ({
           label="Car Color"
           fullWidth
           variant="standard"
+          defaultValue={editFormatData.carColor}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setEditFormatData((prev: any) => ({
               ...prev,
               carColor: event.target.value,
             }));
@@ -124,8 +154,9 @@ const UseCreateCustomerDialog = ({
           label="Car Year"
           fullWidth
           variant="standard"
+          defaultValue={editFormatData.carYear}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setEditFormatData((prev: any) => ({
               ...prev,
               carYear: event.target.value,
             }));
@@ -133,11 +164,11 @@ const UseCreateCustomerDialog = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCreateClose}>Cancel</Button>
-        <Button onClick={handleCreateSubscribe}>Subscribe</Button>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleSubscribe}>Subscribe</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export { UseCreateCustomerDialog };
+export { UseEditCustomerDialog };
