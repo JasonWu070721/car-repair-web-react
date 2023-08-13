@@ -64,7 +64,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  ID:
+                  id:
                     type: integer
                     format: int64
                   name:
@@ -122,7 +122,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  ID:
+                  id:
                     type: integer
                     format: int64
                   name:
@@ -179,7 +179,7 @@ paths:
                 type: array
                 items:
                   properties:
-                    ID:
+                    id:
                       type: integer
                       format: int64
                     name:
@@ -230,7 +230,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  ID:
+                  id:
                     type: integer
                     format: int64
                   name:

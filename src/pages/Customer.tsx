@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -8,11 +8,9 @@ import Stack from "@mui/material/Stack";
 
 import {
   DataGrid,
-  GridRowParams,
   GridRowSelectionModel,
   GridToolbar,
   GridColDef,
-  GridColumnGroupingModel,
 } from "@mui/x-data-grid";
 
 import { TopAppBar } from "../components/TopAppBar";
@@ -54,7 +52,7 @@ function DashboardContent() {
   };
 
   const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Name",
@@ -135,17 +133,19 @@ function DashboardContent() {
           <UseCreateCustomerDialog
             openDialog={dialogOpen}
             setOpenDialog={setDialogOpen}
+            setTableRows={setTableRows}
           />
           <UseEditCustomerDialog
             openDialog={editDialogOpen}
             setOpenDialog={setEditDialogOpen}
             rowSelection={rowSelectionModel}
+            setTableRows={setTableRows}
           />
 
           <div style={{ height: "100%", width: "100%" }}>
             <DataGrid
               rows={tableRows}
-              getRowId={(row) => row.ID}
+              getRowId={(row) => row.id}
               columns={columns}
               experimentalFeatures={{ columnGrouping: true }}
               checkboxSelection

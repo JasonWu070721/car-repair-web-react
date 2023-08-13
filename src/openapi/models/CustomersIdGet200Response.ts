@@ -24,7 +24,7 @@ export interface CustomersIdGet200Response {
      * @type {any}
      * @memberof CustomersIdGet200Response
      */
-    iD?: any | null;
+    id?: any | null;
     /**
      * 
      * @type {any}
@@ -70,7 +70,7 @@ export function CustomersIdGet200ResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'iD': !exists(json, 'ID') ? undefined : json['ID'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'licensePlate': !exists(json, 'license_plate') ? undefined : json['license_plate'],
         'carColor': !exists(json, 'car_color') ? undefined : json['car_color'],
@@ -87,7 +87,7 @@ export function CustomersIdGet200ResponseToJSON(value?: CustomersIdGet200Respons
     }
     return {
         
-        'ID': value.iD,
+        'id': value.id,
         'name': value.name,
         'license_plate': value.licensePlate,
         'car_color': value.carColor,

@@ -16,11 +16,15 @@ import {
 interface reateCustomerDialogProps {
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setTableRows: React.Dispatch<
+    React.SetStateAction<CustomersIdGet200Response[]>
+  >;
 }
 
 const UseCreateCustomerDialog = ({
   openDialog,
   setOpenDialog,
+  setTableRows,
 }: reateCustomerDialogProps) => {
   const [createFormatData, setCreateFormatData] =
     useState<CustomersIdGet200Response>({});
@@ -40,7 +44,8 @@ const UseCreateCustomerDialog = ({
     await customersApi
       .customersPost(customersPostOperationRequest)
       .then((res) => {
-        console.log(res);
+        setTableRows((prev: CustomersIdGet200Response[]) => [...prev, res]);
+        setOpenDialog(false);
       })
 
       .catch((err) => {
@@ -63,8 +68,6 @@ const UseCreateCustomerDialog = ({
 
   const handleCreateSubscribe = () => {
     fetchCreateCustomersApi(createFormatData);
-
-    setOpenDialog(false);
   };
 
   return (
@@ -80,7 +83,7 @@ const UseCreateCustomerDialog = ({
           fullWidth
           variant="standard"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setCreateFormatData((prev: CustomersIdGet200Response) => ({
               ...prev,
               name: event.target.value,
             }));
@@ -95,7 +98,7 @@ const UseCreateCustomerDialog = ({
           fullWidth
           variant="standard"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setCreateFormatData((prev: CustomersIdGet200Response) => ({
               ...prev,
               licensePlate: event.target.value,
             }));
@@ -110,7 +113,7 @@ const UseCreateCustomerDialog = ({
           fullWidth
           variant="standard"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setCreateFormatData((prev: CustomersIdGet200Response) => ({
               ...prev,
               carColor: event.target.value,
             }));
@@ -125,7 +128,7 @@ const UseCreateCustomerDialog = ({
           fullWidth
           variant="standard"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setCreateFormatData((prev: any) => ({
+            setCreateFormatData((prev: CustomersIdGet200Response) => ({
               ...prev,
               carYear: event.target.value,
             }));

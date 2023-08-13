@@ -19,15 +19,17 @@ interface reateCustomerDialogProps {
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   rowSelection: GridRowSelectionModel;
+  setTableRows: React.Dispatch<
+    React.SetStateAction<CustomersIdGet200Response[]>
+  >;
 }
 
 const UseEditCustomerDialog = ({
   openDialog,
   setOpenDialog,
   rowSelection,
+  setTableRows,
 }: reateCustomerDialogProps) => {
-  // const [createFormatData, setCreateFormatData] =
-  //   useState<CustomersIdGet200Response>({});
   const [editFormatData, setEditFormatData] =
     useState<CustomersIdGet200Response>({});
 
@@ -37,7 +39,6 @@ const UseEditCustomerDialog = ({
   const customersApi = new CustomersApi(configuration);
 
   const fetchCustomersIdPutApi = async (
-    // id: any,
     customersIdPutRequest: CustomersIdPutRequest
   ) => {
     const customersId = rowSelection[rowSelection.length - 1];
@@ -49,6 +50,17 @@ const UseEditCustomerDialog = ({
     await customersApi
       .customersIdPut(customersPostOperationRequest)
       .then((res) => {
+        setTableRows((prev: CustomersIdGet200Response[]) => {
+          const editId = prev.findIndex(
+            (customer) => customer.id === customersId
+          );
+
+          const oldCustomer = prev[editId];
+          // TODO: Modify customers data
+          console.log(prev[editId]);
+
+          return prev;
+        });
         console.log(res);
       })
       .catch((err) => {
