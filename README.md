@@ -34,6 +34,7 @@ docker-compose up
 - [x] Support JWT
 - [x] Support HTTPS
 - [x] Support Google, Facebook Login
+- [X] Support Material UI
 - [ ] CSRF (Cross-Site Request Forgery) protection
 - [ ] XSS (Cross-Site Scripting) protection
 - [ ] Injection protection
